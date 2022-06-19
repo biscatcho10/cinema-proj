@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\News;
-use Faker\Factory;
 use Illuminate\Database\Seeder;
 
-class NewsSeeder extends Seeder
+class FilmSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,15 +13,14 @@ class NewsSeeder extends Seeder
      */
     public function run()
     {
-        $fake = Factory::create();
+        $fake = \Faker\Factory::create();
 
         foreach (range(1, 10) as $index) {
-            News::create([
+            \App\Models\Film::create([
                 'title' => $fake->sentence,
-                'description' => $fake->paragraph,
-                'image' => $fake->imageUrl(),
+                'image' => $fake->imageUrl,
+                'date' => $fake->date,
                 'category_id' => $fake->numberBetween(1, 10),
-                'date' => $fake->dateTimeBetween('-1 years', 'now'),
             ]);
         }
     }

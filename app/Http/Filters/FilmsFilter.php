@@ -4,7 +4,7 @@ namespace App\Http\Filters;
 
 use Carbon\Carbon;
 
-class NewsFilter extends BaseFilters
+class FilmsFilter extends BaseFilters
 {
     /**
      * Registered filters to operate upon.
@@ -12,8 +12,7 @@ class NewsFilter extends BaseFilters
      * @var array
      */
     protected $filters = [
-        'title',
-        'description',
+        'name',
         'category',
         'date'
     ];
@@ -24,26 +23,10 @@ class NewsFilter extends BaseFilters
      * @param string|int $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function title($value)
+    protected function name($value)
     {
         if ($value) {
-            return $this->builder->where('title', 'like', "%$value%");
-        }
-
-        return $this->builder;
-    }
-
-
-    /**
-     * Filter the query by a given name.
-     *
-     * @param string|int $value
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function description($value)
-    {
-        if ($value) {
-            return $this->builder->where('description', 'like', "%$value%");
+            return $this->builder->where('name', 'like', "%$value%");
         }
 
         return $this->builder;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\APIs\CategoryController;
+use App\Http\Controllers\APIs\FilmController;
 use App\Http\Controllers\APIs\NewsController;
 use App\Http\Controllers\APIs\TweetController;
 use App\Http\Controllers\Auth\AuthController;
@@ -30,11 +31,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::resource('category', CategoryController::class);
 
-    Route::resource('news', NewsController::class);
+    Route::resource('films', FilmController::class);
 
-    // get category news
-    Route::get('category/{category}/news', [NewsController::class, 'category']);
-
-    // filter news
-    Route::get('news/filter', [NewsController::class, 'filter']);
+    // get category films
+    Route::get('film/{film}/news', [FilmController::class, 'film']);
 });
