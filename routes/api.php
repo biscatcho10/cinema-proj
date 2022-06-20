@@ -33,6 +33,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::resource('films', FilmController::class);
 
-    // get category films
-    Route::get('film/{film}/news', [FilmController::class, 'film']);
+    // add date to film
+    Route::post('film/{film}/date', [FilmController::class, 'addDate']);
+
+    // get today films
+    Route::get('film/today', [FilmController::class, 'today']);
 });

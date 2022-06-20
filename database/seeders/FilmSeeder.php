@@ -19,7 +19,7 @@ class FilmSeeder extends Seeder
             \App\Models\Film::create([
                 'title' => $fake->sentence,
                 'image' => $fake->imageUrl,
-                'date' => $fake->date,
+                'show_date' => $fake->date,
                 'category_id' => $fake->numberBetween(1, 10),
             ]);
         }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\APIs;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\FilmsFilter;
 use App\Models\Film;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FilmController extends Controller
@@ -31,6 +32,8 @@ class FilmController extends Controller
             'data' => $films
         ], 200);
     }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -41,14 +44,13 @@ class FilmController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'image' => 'required|string|max:255',
-            'date' => 'required|string|max:255',
+            'image' => 'required|string',
             'category_id' => 'required|integer',
         ]);
 
         $input = $request->all();
 
-        if ($request->hasFile('image')) {
+        if ($request->image) {
             $input['image'] = $this->saveImage($request->image);
         }
 
@@ -87,14 +89,13 @@ class FilmController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'image' => 'required|string|max:255',
-            'date' => 'required|string|max:255',
+            'image' => 'required|string',
             'category_id' => 'required|integer',
         ]);
 
         $input = $request->all();
 
-        if ($request->hasFile('image')) {
+        if ($request->image) {
             $input['image'] = $this->saveImage($request->image);
         }
 
@@ -138,5 +139,48 @@ class FilmController extends Controller
         $path = $folderPath . $file;
         file_put_contents($path, $image_base64);
         return $file;
+    }
+
+
+    // add data to film
+    public function addDate(Request $request, Film $film)
+    {
+        $request->validate([
+            'date' => 'required|string',
+            'time' => 'required|string',
+        ]);
+
+        if ($request->date) {
+            $film->update([
+                'show_date' => Carbon::parse($request->date . ' ' . $request->time)->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'film\'s date added successfully.',
+            'data' => $film
+        ], 200);
+    }
+
+
+    // get today films
+    public function today()
+    {
+        $films  = Film::all();
+
+        $todayFilms = [];
+
+        foreach ($films as $film) {
+            if (Carbon::parse($film->show_date)->isToday()) {
+                $todayFilms[] = $film;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'today films list.',
+            'data' => $todayFilms
+        ], 200);
     }
 }

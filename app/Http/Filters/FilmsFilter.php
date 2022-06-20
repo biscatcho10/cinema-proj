@@ -12,21 +12,21 @@ class FilmsFilter extends BaseFilters
      * @var array
      */
     protected $filters = [
-        'name',
+        'title',
         'category',
         'date'
     ];
 
     /**
-     * Filter the query by a given name.
+     * Filter the query by a given title.
      *
      * @param string|int $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function name($value)
+    protected function title($value)
     {
         if ($value) {
-            return $this->builder->where('name', 'like', "%$value%");
+            return $this->builder->where('title', 'like', "%$value%");
         }
 
         return $this->builder;
@@ -59,7 +59,7 @@ class FilmsFilter extends BaseFilters
     {
         if ($value) {
             $date = Carbon::parse($value)->format('Y-m-d H:i:s');
-            return $this->builder->where('date', $date);
+            return $this->builder->where('show_date', $date);
         }
 
         return $this->builder;
